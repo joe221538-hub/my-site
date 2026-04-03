@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeatPrice AI | 机票决策工具</title>
+  <meta
+    name="description"
+    content="让用户用一句自然语言说出需求，再由系统解析出时间、目的地、舱位与偏好，生成清晰的机票决策界面。"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">SP</div>
+        <div>
+          <p class="brand-name">SeatPrice AI</p>
+          <p class="brand-sub">Flight Decision Prototype</p>
+        </div>
+      </div>
+      <div class="status-pill" id="runtime-status">准备中</div>
+    </header>
+
+    <main class="page">
+      <section class="hero-card">
+        <div class="hero-copy">
+          <p class="eyebrow">AI 先理解需求，再进结果页</p>
+          <h1>让用户先说一句人话，再进入清晰的机票决策界面。</h1>
+          <p class="hero-text">
+            这一版重点不是做漂亮营销页，而是把核心流程跑通：
+            用户输入一句需求，系统拆成结构化条件，再把价格、座椅、体验和公开评价摘要压缩成明了的结果页。
+          </p>
+        </div>
+
+        <div class="prompt-card">
+          <div class="section-head compact">
+            <div>
+              <p class="section-kicker">Prompt Input</p>
+              <h2>输入一句需求</h2>
+            </div>
+          </div>
+
+          <form id="prompt-form" class="prompt-form">
+            <label class="prompt-label" for="prompt-input">用户原话</label>
+            <textarea
+              id="prompt-input"
+              name="prompt"
+              rows="4"
+              placeholder="比如：我想在七月份去法国，商务舱，想睡得好一点，然后要日航"
+            ></textarea>
+
+            <div class="example-row">
+              <button class="chip-button" type="button" data-prompt="我想在七月份去法国，商务舱，想睡得好一点，然后要日航">
+                法国 / 日航 / 睡眠
+              </button>
+              <button class="chip-button" type="button" data-prompt="我想去巴黎，商务舱，越直飞越好，隐私要强一点">
+                巴黎 / 直飞 / 隐私
+              </button>
+              <button class="chip-button" type="button" data-prompt="七月去法国商务舱，预算别太夸张，但也不要太差">
+                法国 / 商务舱 / 预算
+              </button>
+            </div>
+
+            <button class="primary-button" type="submit">AI 解析并生成结果</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="parse-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Intent Parse</p>
+            <h2>AI 理解后的结构化条件</h2>
+          </div>
+          <div class="section-note" id="intent-source">等待解析</div>
+        </div>
+
+        <div class="parse-grid">
+          <article class="panel">
+            <p class="panel-title">识别结果</p>
+            <div class="chip-group" id="intent-chips"></div>
+          </article>
+          <article class="panel">
+            <p class="panel-title">默认假设 / 待补充信息</p>
+            <ul class="text-list" id="intent-assumptions"></ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="result-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Decision Result</p>
+            <h2>先给推荐，再给证据</h2>
+          </div>
+          <div class="section-note" id="query-line">等待结果</div>
+        </div>
+
+        <div class="decision-layout">
+          <article class="hero-result" id="hero-result"></article>
+
+          <div class="stack">
+            <article class="panel" id="basic-info-panel"></article>
+            <article class="panel" id="summary-panel"></article>
+            <article class="panel" id="review-panel"></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="focus-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Focus Picks</p>
+            <h2>把高价值结论直接提出来</h2>
+          </div>
+        </div>
+
+        <div class="focus-grid" id="focus-grid"></div>
+      </section>
+
+      <section class="candidate-section">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Candidate Stack</p>
+            <h2>候选方案与快速对比</h2>
+          </div>
+        </div>
+
+        <div class="compare-table-wrap">
+          <table class="compare-table" id="compare-table"></table>
+        </div>
+
+        <div class="candidate-grid" id="candidate-grid"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>前端文件都保留在根目录，方便你后面直接改样式。Cloudflare Worker API 在 `src/` 下。</p>
+    </footer>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
